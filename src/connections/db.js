@@ -1,21 +1,19 @@
-import { connect } from "mongoose";
+import { connect } from 'mongoose';
 
+const connectDB = async (uri) => {
+  let isConnected = false;
 
-const connectDB = async () => {
-	let isConnected = false
-
-	while (!isConnected) {
-		try {
-			const connectionInstance = await connect(`${process.env.MONGODB_URI}/${"todo-app"}`)
-			isConnected = true
-			console.log(`\n MongoDB is Connected !! DB Host : ${connectionInstance.connection.host}`)
-
-		} catch (error) {
-			console.log(`Error :${error}`);
-			process.exit(1)
-		}
-	}
-
-
-}
+  while (!isConnected) {
+    try {
+      const connectionInstance = await connect(uri, { dbName: 'todo-app' });
+      isConnected = true;
+      console.log(
+        `\n MongoDB is Connected !! DB Host : ${connectionInstance.connection.host}`
+      );
+    } catch (error) {
+      console.log(`Error :${error}`);
+      console.log('Retrying Mongodb connection ');
+    }
+  }
+};
 export default connectDB;

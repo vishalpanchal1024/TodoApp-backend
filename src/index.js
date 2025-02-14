@@ -1,5 +1,5 @@
 import express from 'express';
-import { Start } from '@/server';
+import { Start } from './server.js';
 
 function Initlization() {
   const app = express();
@@ -7,24 +7,3 @@ function Initlization() {
 }
 
 Initlization();
-
-
-
-
-
-// import dotenv from "dotenv";
-// import connectDB from "../src/connections/db.js";
-// import { app } from "../src/server.js"
-
-
- 
-
-// connectDB().then(() => {
-// 	app.listen(process.env.PORT || 3000, () => {
-// 		console.log(`server is running at port : ${process.env.PORT}`)
-// 	});
-// }).catch((error) => {
-// 	console.log(`error : ${error}`)
-// })
-
-
