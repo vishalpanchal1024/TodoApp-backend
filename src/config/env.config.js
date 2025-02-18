@@ -1,8 +1,18 @@
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './.env' });
+dotenv.config();
 
 class Config {
+  MONGODB_URI;
+  CLIENT_URL;
+  CLOUDINARY_SECRET;
+  CLOUDINARY_API_KEY;
+  CLOUDINARY_NAME;
+  JWT_TOKEN;
+  PORT;
+  EMAILID;
+  EMAILPASS;
+
   constructor() {
     this.MONGODB_URI = process.env.MONGODB_URI;
     this.CLIENT_URL = process.env.CLIENT_URL;
@@ -11,6 +21,8 @@ class Config {
     this.CLOUDINARY_NAME = process.env.CLOUDINARY_NAME;
     this.JWT_TOKEN = process.env.JWT_TOKEN;
     this.PORT = process.env.PORT;
+    this.EMAILID = process.env.EMAILID;
+    this.EMAILPASS = process.env.EMAILPASS;
   }
 }
 

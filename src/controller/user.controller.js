@@ -1,16 +1,6 @@
-import { AsyncHandler } from '../utils/asyncHandler';
-import { BadRequestError } from '../utils/errorHandler';
+import { AsyncHandler } from '../utils/asyncHandler.js';
+import { BadRequestError } from '../utils/errorHandler.js';
 
-const registerUser = AsyncHandler(async (req, res, next) => {
-  const { fullName, userName, email, password } = req.body;
-  if (
-    [fullName, userName, email, password].some((field) => field?.trim() === '')
-  ) {
-    throw new BadRequestError('All Fields are Required .', ' registerUser');
-  }
+const registerUser = AsyncHandler(async (req, res, next) => {});
 
-
-  
-});
-
-export default { registerUser };
+export { registerUser };

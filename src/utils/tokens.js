@@ -6,5 +6,5 @@ export const generateAccesToken = (data) => {
 };
 
 export const generateRefreshToken = (data) => {
-  return sign(data, envConfig.JWT_TOKEN, { expiresIn: '7d' });
+  return sign(data, envConfig.JWT_TOKEN, { expiresIn: '2d' });
 };

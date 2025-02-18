@@ -3,15 +3,16 @@ import { compare, hash } from 'bcrypt';
 
 const userSchema = new Schema(
   {
-    fullName: { type: String, required: true },
-    userName: { type: String, required: true, unique: true, trim: true },
+    fullname: { type: String, required: true },
+    username: { type: String, required: true, unique: true, trim: true },
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
-    refreshToken: { typr: String },
+    otp: { type: String },
+    emailVarification: { type: Boolean, required: true, default: false },
+    refreshtoken: { typr: String },
   },
   { timestamps: true }
 );
-
 
 userSchema.pre('save', async (next) => {
   if (!this.isModified) {
