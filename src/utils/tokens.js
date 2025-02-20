@@ -1,10 +1,10 @@
-import { sign } from 'jsonwebtoken';
-import { envConfig } from '../config/env.config';
+import jwt from 'jsonwebtoken';
+import { envConfig } from '../config/env.config.js';
 
 export const generateAccesToken = (data) => {
-  return sign(data, envConfig.JWT_TOKEN, { expiresIn: '1d' });
+  return jwt.sign(data, envConfig.JWT_TOKEN, { expiresIn: '1d' });
 };
 
 export const generateRefreshToken = (data) => {
-  return sign(data, envConfig.JWT_TOKEN, { expiresIn: '2d' });
+  return jwt.sign(data, envConfig.JWT_TOKEN, { expiresIn: '2d' });
 };

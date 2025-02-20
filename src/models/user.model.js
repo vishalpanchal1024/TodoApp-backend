@@ -7,9 +7,14 @@ const userSchema = new Schema(
     username: { type: String, required: true, unique: true, trim: true },
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
-    otp: { type: String },
-    emailVarification: { type: Boolean, required: true, default: false },
-    refreshtoken: { typr: String },
+    image: { type: String, },
+    occupation: { type: String },
+    description: { type: String },
+    otpExpire: { type: Date },
+    otp: { type: Number },
+    emailVerification: { type: Boolean, default: false },
+    refreshToken: { type: String },
+
   },
   { timestamps: true }
 );
