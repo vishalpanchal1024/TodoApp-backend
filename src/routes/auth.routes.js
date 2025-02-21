@@ -1,9 +1,14 @@
 import { Router } from 'express';
-import { registerValidator } from '../helper/helper.js';
-import { registerUser } from '../controller/user.controller.js';
+import { LoginValidator, registerValidator } from '../helper/helper.js';
+import { loginUser, registerUser } from '../controller/user.controller.js';
+import { upload } from '../config/multer.config.js';
 
 const authRoute = Router();
 
-authRoute.route('/register').post(registerValidator, registerUser);
+authRoute
+  .route('/register')
+  .post(upload.single('image'), registerValidator, registerUser);
+
+authRoute.route('/login').post(LoginValidator, loginUser);
 
 export default authRoute;

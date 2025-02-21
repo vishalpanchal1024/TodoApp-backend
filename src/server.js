@@ -27,6 +27,7 @@ const middlewares = (app) => {
   app.use(urlencoded({ extended: true, limit: '16kb' }));
   app.use(express.static('public')); // Fixed static import
   app.use(cookieParser());
+  app.use(express.json());
 };
 
 const Routes = (app) => {
