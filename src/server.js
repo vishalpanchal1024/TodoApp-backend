@@ -31,7 +31,7 @@ const middlewares = (app) => {
 };
 
 const Routes = (app) => {
-  app.get('/health', (_req, res) => res.send('Server is Healthy and OK'));
+  app.get('/', (_req, res) => res.send('Server is Healthy and OK'));
   app.use('/api/v1', rootRoute);
 };
 
