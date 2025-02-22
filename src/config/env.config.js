@@ -12,6 +12,7 @@ class Config {
   PORT;
   EMAILID;
   EMAILPASS;
+  NODE_ENV;
 
   constructor() {
     this.MONGODB_URI = process.env.MONGODB_URI;
@@ -23,6 +24,7 @@ class Config {
     this.PORT = process.env.PORT;
     this.EMAILID = process.env.EMAILID;
     this.EMAILPASS = process.env.EMAILPASS;
+    this.NODE_ENV = process.env.NODE_ENV;
   }
 }
 

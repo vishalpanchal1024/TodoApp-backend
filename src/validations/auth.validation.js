@@ -18,3 +18,8 @@ export const LoginValidation = object({
   email: string().email().required('E-mail is required'),
   password: string().required('Password is Required'),
 });
+
+export const ChnagePassword = object({
+  oldPssword: string().required('Old Pssword is Required .'),
+  newPassword: string().required('New Password is Required .'),
+})

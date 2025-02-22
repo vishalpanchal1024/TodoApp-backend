@@ -8,7 +8,7 @@ const connectDB = async (uri) => {
       const connectionInstance = await connect(uri, { dbName: 'todo-app' });
       isConnected = true;
       console.log(
-        `\n MongoDB is Connected !! DB Host : ${connectionInstance.connection.host}`
+        `MongoDB is Connected !! DB Host : ${connectionInstance.connection.host}`
       );
     } catch (error) {
       console.log(`Error :${error}`);
