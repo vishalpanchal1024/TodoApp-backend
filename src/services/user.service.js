@@ -8,7 +8,7 @@ export const findByEmailOrUsername = async (value) => {
 };
 
 export const findById = async (id) => {
-  const user = await User.findById(id).select('-password').exec();
+  const user = await User.findById(id).select('-password -refreshToken').exec();
   return user;
 };
 
@@ -22,10 +22,10 @@ export const CreateUser = async (data) => {
 //   return user;
 // };
 
-// export const UpdateRefreshToken = async (id, refresh_token) => {
-//   const data = await User.findByIdAndUpdate(id, { refresh_token }, { new: true }).exec();
-//   return data;
-// };
+export const UpdateRefreshToken = async (id, refreshToken) => {
+  const data = await User.findByIdAndUpdate(id, { refreshToken }, { new: true }).exec();
+  return data;
+};
 
 // export const getUsers = async (id) => {
 //   const data = await User.find({ _id: { $ne: id } }).select('-password').exec();

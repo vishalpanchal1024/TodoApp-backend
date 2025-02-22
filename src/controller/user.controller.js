@@ -1,5 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import { CreateUser, findByEmailOrUsername } from '../services/user.service.js';
+import {
+  CreateUser,
+  findByEmailOrUsername,
+  UpdateRefreshToken,
+} from '../services/user.service.js';
 import { AsyncHandler } from '../utils/asyncHandler.js';
 import {
   BadRequestError,
@@ -9,7 +13,6 @@ import {
 import { generateOTP } from '../utils/generateOtp.js';
 import { uploadOnCloudinary } from '../utils/imageUpload.js';
 import { generateAccesToken, generateRefreshToken } from '../utils/tokens.js';
-import { ApiResponse } from '../utils/apiResponse.js';
 import { SendMail } from '../utils/sendMail.js';
 
 const options = {
@@ -110,4 +113,14 @@ const loginUser = AsyncHandler(async (req, res, next) => {
     });
 });
 
-export { registerUser, loginUser };
+const logoutUser = AsyncHandler(async (req, res, next) => {
+  consoler.log(req.user);
+  await UpdateRefreshToken(req.user._id, null);
+  return res
+    .status(StatusCodes.OK)
+    .clearCookie('ajt', options)
+    .clearCookie('rjt', options2)
+    .json({ data: {}, message: 'Log Out Succesfully !' });
+});
+
+export { registerUser, loginUser, logoutUser };
