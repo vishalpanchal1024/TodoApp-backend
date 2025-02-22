@@ -24,7 +24,8 @@ const uploadOnCloudinary = async (
       overwrite,
       invalidate,
     });
-    fs.unlinkSync(localFilePath);
+
+     fs.unlinkSync(localFilePath);
 
     return { imageUrl: responce.secure_url, imageId: responce.public_id };
   } catch (error) {
