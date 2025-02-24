@@ -19,7 +19,14 @@ export const LoginValidation = object({
   password: string().required('Password is Required'),
 });
 
-export const ChnagePassword = object({
+export const ChangePasswordValidation = object({
   oldPssword: string().required('Old Pssword is Required .'),
   newPassword: string().required('New Password is Required .'),
-})
+});
+
+export const EditProfileValidation = object({
+  fullname: string().required('Full Name is Required .'),
+  username: string().required('Username is Required .'),
+  occupation: string().required('Password is Required .'),
+  description: string().required('Password is Required .'),
+});

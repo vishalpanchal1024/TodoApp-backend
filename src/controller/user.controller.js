@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import {
   CreateUser,
   findByEmailOrUsername,
+  UpdateProfile,
   UpdateRefreshToken,
 } from '../services/user.service.js';
 import { AsyncHandler } from '../utils/asyncHandler.js';
@@ -15,21 +16,20 @@ import { uploadOnCloudinary } from '../utils/imageUpload.js';
 import { generateAccesToken, generateRefreshToken } from '../utils/tokens.js';
 import { SendMail } from '../utils/sendMail.js';
 import { envConfig } from '../config/env.config.js';
-import { User } from '../models/user.model.js';
 import { compare } from 'bcrypt';
 
 const options = {
   maxAge: 24 * 60 * 60 * 1000,
   httpOnly: true,
-  secure: envConfig.NODE_ENV !== 'developement',
-  sameSite: 'None',
+  // secure: envConfig.NODE_ENV !== 'developement',
+  // sameSite: 'None',
 };
 
 const options2 = {
   maxAge: 25 * 60 * 60 * 1000,
   httpOnly: true,
-  secure: envConfig.NODE_ENV !== 'developement',
-  sameSite: 'None',
+  // secure: envConfig.NODE_ENV !== 'developement',
+  // sameSite: 'None',
 };
 
 const registerUser = AsyncHandler(async (req, res) => {
@@ -97,7 +97,6 @@ const loginUser = AsyncHandler(async (req, res) => {
     throw new BadRequestError('Invalid credentials.', 'Login User');
   }
 
-  console.log(isPasswordCorrect, '009090');
   user.password = null;
   user.otp = null;
 
@@ -106,18 +105,13 @@ const loginUser = AsyncHandler(async (req, res) => {
     id: user._id,
     email: user.email,
   });
-
-  console.log(user);
-  return res
-    .status(StatusCodes.OK)
-    .cookie('ajt', accessToken, options)
-    .cookie('rjt', refreshToken, options2)
-    .json({
-      user,
-      refreshToken,
-      accessToken,
-      message: 'Login successful. Welcome back!',
-    });
+  res.cookie('ajt', accessToken, options).cookie('rjt', refreshToken, options2);
+  return res.status(StatusCodes.OK).json({
+    user,
+    refreshToken,
+    accessToken,
+    message: 'Login successful. Welcome back!',
+  });
 });
 
 const logoutUser = AsyncHandler(async (req, res) => {
@@ -141,7 +135,6 @@ const VerifyOtp = AsyncHandler(async (req, res) => {
 
   const date = Date.now();
 
-  
   if (date > req?.user.otpExpire) {
     throw new BadRequestError('OTP is expire', 'VerifyOtp method');
   }
@@ -158,7 +151,7 @@ const VerifyOtp = AsyncHandler(async (req, res) => {
 const ChangePassword = AsyncHandler(async (req, res) => {
   const { oldPssword, newPassword } = req.body;
 
-  const find = await User.findById(req.user?._id);
+  const find = await findById(req.user?._id);
 
   const isCurrect = compare(oldPssword, find.password);
   if (!isCurrect) {
@@ -168,10 +161,25 @@ const ChangePassword = AsyncHandler(async (req, res) => {
     );
   }
 
-  await User.findByIdAndUpdate(req.user?._id, { password: newPassword });
+  await findByIdAndUpdate(req.user?._id, { password: newPassword });
   return res.status(StatusCodes.ACCEPTED).json({
     message: 'New Password Created',
   });
+});
+
+const ProfileUpdate = AsyncHandler(async (req, res) => {
+  const data = req.body;
+
+  const updatedUser = await UpdateProfile(req.user._id, data);
+
+  // console.log(updatedUser, 'res');
+
+  if (!updatedUser) {
+    throw new NotFoundError('User Profile not Found ', 'updateProfile');
+  }
+  return res
+    .status(StatusCodes.OK)
+    .json({ message: 'Profile Update Successfully .' });
 });
 
 export {
@@ -181,4 +189,5 @@ export {
   LogedInUser,
   VerifyOtp,
   ChangePassword,
+  ProfileUpdate,
 };

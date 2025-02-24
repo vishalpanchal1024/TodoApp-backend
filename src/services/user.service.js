@@ -3,7 +3,7 @@ import { User } from '../models/user.model.js';
 export const findByEmailOrUsername = async (value) => {
   const data = await User.findOne({
     $or: [{ email: value }, { username: value }],
-  }).exec();
+  });
   return data;
 };
 
@@ -17,13 +17,20 @@ export const CreateUser = async (data) => {
   return user;
 };
 
-// export const UpdateProfile = async (id, profilePic) => {
-//   const user = await User.findByIdAndUpdate(id, { profilePic }, { new: true }).exec();
-//   return user;
-// };
+export const UpdateProfile = async (id, profileData) => {
+  // console.log(profileData, 'profile Data');
+  const user = await User.findByIdAndUpdate(id, profileData, {
+    new: true,
+  }).exec();
+  return user;
+};
 
 export const UpdateRefreshToken = async (id, refreshToken) => {
-  const data = await User.findByIdAndUpdate(id, { refreshToken }, { new: true }).exec();
+  const data = await User.findByIdAndUpdate(
+    id,
+    { refreshToken },
+    { new: true }
+  ).exec();
   return data;
 };
 
