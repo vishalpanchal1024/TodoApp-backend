@@ -9,7 +9,7 @@ export const Authentication = AsyncHandler(async (req, _, next) => {
     req.cookies?.ajt ||
     req.header('Authorization')?.replace('Bearer ', '');
 
-  if (!token) {
+  if (!token) {  
     throw new NotAuthorizedError(
       'Unauthorized Request',
       'Authentication method '

@@ -21,15 +21,15 @@ import { compare } from 'bcrypt';
 const options = {
   maxAge: 24 * 60 * 60 * 1000,
   httpOnly: true,
-  secure:envConfig.NODE_ENV !== "developement",
-  sameSite:"None"
+  secure: envConfig.NODE_ENV !== 'developement',
+  sameSite: 'None',
 };
 
 const options2 = {
   maxAge: 25 * 60 * 60 * 1000,
   httpOnly: true,
-  secure:envConfig.NODE_ENV !== "developement",
-  sameSite:"None"
+  secure: envConfig.NODE_ENV !== 'developement',
+  sameSite: 'None',
 };
 
 const registerUser = AsyncHandler(async (req, res) => {
@@ -130,44 +130,55 @@ const logoutUser = AsyncHandler(async (req, res) => {
     .json({ data: {}, message: 'Log Out Succesfully !' });
 });
 
-const LogedInUser = AsyncHandler(async (req,res) => {
+const LogedInUser = AsyncHandler(async (req, res) => {
   return res.status(StatusCodes.ACCEPTED).json({
-    user:req.user
-  })
-})
+    user: req.user,
+  });
+});
 
-const VerifyOtp = AsyncHandler(async (req,res) => {
-  const {otp} = req.body;
+const VerifyOtp = AsyncHandler(async (req, res) => {
+  const { otp } = req.body;
 
   const date = Date.now();
+
+  
   if (date > req?.user.otpExpire) {
     throw new BadRequestError('OTP is expire', 'VerifyOtp method');
   }
 
-  if(otp !== req?.user?.otp){
-    throw new BadRequestError("Wrong OTP","VerifyOtp method")
+  if (otp !== req?.user?.otp) {
+    throw new BadRequestError('Wrong OTP', 'VerifyOtp method');
   }
 
   return res.status(StatusCodes.ACCEPTED).json({
-    message:"OTP Verifyed"
-  })
+    message: 'OTP Verifyed',
+  });
+});
 
-})
-
-const ChangePassword = AsyncHandler(async (req,res)=> {
-  const {oldPssword,newPassword} = req.body;
+const ChangePassword = AsyncHandler(async (req, res) => {
+  const { oldPssword, newPassword } = req.body;
 
   const find = await User.findById(req.user?._id);
 
-  const isCurrect = compare(oldPssword,find.password);
-  if(!isCurrect){
-    throw new BadRequestError("Old Password does not match","ChangePassword method")
+  const isCurrect = compare(oldPssword, find.password);
+  if (!isCurrect) {
+    throw new BadRequestError(
+      'Old Password does not match',
+      'ChangePassword method'
+    );
   }
 
-  await User.findByIdAndUpdate(req.user?._id,{password:newPassword});
+  await User.findByIdAndUpdate(req.user?._id, { password: newPassword });
   return res.status(StatusCodes.ACCEPTED).json({
-    message:"New Password Created"
-  })
-})
+    message: 'New Password Created',
+  });
+});
 
-export { registerUser, loginUser, logoutUser,LogedInUser,VerifyOtp,ChangePassword };
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  LogedInUser,
+  VerifyOtp,
+  ChangePassword,
+};
