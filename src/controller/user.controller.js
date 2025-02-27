@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import {
   CreateUser,
   findByEmailOrUsername,
+  findById,
   UpdateProfile,
   UpdateRefreshToken,
 } from '../services/user.service.js';
@@ -172,14 +173,36 @@ const ProfileUpdate = AsyncHandler(async (req, res) => {
 
   const updatedUser = await UpdateProfile(req.user._id, data);
 
-  // console.log(updatedUser, 'res');
-
   if (!updatedUser) {
     throw new NotFoundError('User Profile not Found ', 'updateProfile');
   }
   return res
     .status(StatusCodes.OK)
     .json({ message: 'Profile Update Successfully .' });
+});
+
+const ResendOtp = AsyncHandler(async (req, res) => {
+  const { otp, expiresAt } = generateOTP();
+
+  const user = await findById(req.user?._id);
+
+  if (!user) {
+    throw new NotFoundError('User not Found ', 'ResendOtp method');
+  }
+
+  await findByIdAndUpdate(req.user?._id, {
+    otp,
+    otpExpire: expiresAt,
+  });
+
+  SendMail(
+    'email.ejs',
+    { name: user.fullname, otp: otp },
+    { email: user.email, subject: 'Email Verification' }
+  );
+  return res
+    .status(StatusCodes.OK)
+    .json({ mesage: 'OTP send again Your E-mail' });
 });
 
 export {
@@ -190,4 +213,5 @@ export {
   VerifyOtp,
   ChangePassword,
   ProfileUpdate,
+  ResendOtp,
 };
