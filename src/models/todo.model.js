@@ -12,4 +12,9 @@ const todoSchema = new Schema(
   { timestamps: true }
 );
 
+todoSchema.index({
+  title: 'text',
+  description: 'text',
+});
+
 export const Todo = model('Todo', todoSchema);

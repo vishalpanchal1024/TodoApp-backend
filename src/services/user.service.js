@@ -18,7 +18,6 @@ export const CreateUser = async (data) => {
 };
 
 export const UpdateProfile = async (id, profileData) => {
-  // console.log(profileData, 'profile Data');
   const user = await User.findByIdAndUpdate(id, profileData, {
     new: true,
   }).exec();
@@ -34,7 +33,7 @@ export const UpdateRefreshToken = async (id, refreshToken) => {
   return data;
 };
 
-// export const getUsers = async (id) => {
-//   const data = await User.find({ _id: { $ne: id } }).select('-password').exec();
-//   return data;
-// };
+export const getUsers = async (id) => {
+  const data = await User.find({ _id: { $ne: id } }).select('-password').exec();
+  return data;
+};

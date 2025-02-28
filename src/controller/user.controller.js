@@ -125,7 +125,7 @@ const logoutUser = AsyncHandler(async (req, res) => {
     .json({ data: {}, message: 'Log Out Succesfully !' });
 });
 
-const LogedInUser = AsyncHandler(async (req, res) => {
+const LoggedInUser = AsyncHandler(async (req, res) => {
   return res.status(StatusCodes.ACCEPTED).json({
     user: req.user,
   });
@@ -209,7 +209,7 @@ export {
   registerUser,
   loginUser,
   logoutUser,
-  LogedInUser,
+  LoggedInUser,
   VerifyOtp,
   ChangePassword,
   ProfileUpdate,
