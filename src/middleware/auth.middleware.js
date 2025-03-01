@@ -15,9 +15,8 @@ export const Authentication = AsyncHandler(async (req, _, next) => {
     );
   }
   const decodedToken = jwt.verify(token, envConfig.JWT_TOKEN);
-  console.log(decodedToken, 'token');
   const user = await findById(decodedToken.id);
-  console.log('auth ', user);
+
   if (!user) {
     throw new BadRequestError('Invaild Access Token', 'Authentication method');
   }

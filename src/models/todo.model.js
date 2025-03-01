@@ -4,9 +4,14 @@ const todoSchema = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
-    status: { type: Boolean, default: false },
+    status: {
+      type: String,
+      enum: ['pending', 'completed'],
+      default: 'pending',
+    },
+    dueDate: { type: Date },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
-    tagId: { type: Schema.Types.ObjectId, ref: 'Tag' },
+    tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     listId: { type: Schema.Types.ObjectId, ref: 'List' },
   },
   { timestamps: true }
