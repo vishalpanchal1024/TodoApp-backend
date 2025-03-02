@@ -35,23 +35,17 @@ const options2 = {
 
 const registerUser = AsyncHandler(async (req, res) => {
   const data = req.body;
-  const { path } = req.file;
 
   const user = await findByEmailOrUsername(data.email);
   if (user) {
     throw new BadRequestError('User Already Exists', 'registerUser');
   }
 
-  const image = await uploadOnCloudinary(path, '', true, true);
-  if (!image) {
-    throw new BadRequestError('Failed to upload image ', 'registerUser');
-  }
   const refreshToken = generateRefreshToken({ email: data.email });
   const { otp, expiresAt } = generateOTP();
   const newUser = await CreateUser({
     ...data,
     otp,
-    image,
     refreshToken,
     otpExpire: expiresAt,
   });

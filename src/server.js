@@ -15,11 +15,12 @@ export const Start = (app) => {
   startServer(app);
 };
 
+
 const middlewares = (app) => {
   app.use(
     cors({
-      origin: envConfig.CORS_ORIGIN,
-      credentials: true, // Fixed typo
+      origin: envConfig.CLIENT_URL,
+      credentials: true, 
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     })
   );

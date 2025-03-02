@@ -22,7 +22,7 @@ const authRoute = Router();
 
 authRoute
   .route('/register')
-  .post(upload.single('image'), registerValidator, registerUser);
+  .post(registerValidator, registerUser);
 
 authRoute.route('/login').post(LoginValidator, loginUser);
 authRoute.route('/logout').post(Authentication, logoutUser);
