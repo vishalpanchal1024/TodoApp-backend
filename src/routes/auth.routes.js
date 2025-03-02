@@ -15,7 +15,6 @@ import {
   ProfileUpdate,
   ResendOtp,
 } from '../controller/user.controller.js';
-import { upload } from '../config/multer.config.js';
 import { Authentication } from '../middleware/auth.middleware.js';
 
 const authRoute = Router();
