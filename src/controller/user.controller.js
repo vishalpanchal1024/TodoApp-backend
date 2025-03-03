@@ -162,19 +162,6 @@ const ChangePassword = AsyncHandler(async (req, res) => {
   });
 });
 
-const ProfileUpdate = AsyncHandler(async (req, res) => {
-  const data = req.body;
-
-  const updatedUser = await UpdateProfile(req.user._id, data);
-
-  if (!updatedUser) {
-    throw new NotFoundError('User Profile not Found ', 'updateProfile');
-  }
-  return res
-    .status(StatusCodes.OK)
-    .json({ message: 'Profile Update Successfully .' });
-});
-
 const ResendOtp = AsyncHandler(async (req, res) => {
   const { otp, expiresAt } = generateOTP();
 
@@ -184,7 +171,7 @@ const ResendOtp = AsyncHandler(async (req, res) => {
     throw new NotFoundError('User not Found ', 'ResendOtp method');
   }
 
-  await findByIdAndUpdate(req.user?._id, {
+  await UpdateProfile(req.user?._id, {
     otp,
     otpExpire: expiresAt,
   });
@@ -199,6 +186,19 @@ const ResendOtp = AsyncHandler(async (req, res) => {
     .json({ mesage: 'OTP send again Your E-mail' });
 });
 
+const ProfileUpdate = AsyncHandler(async (req, res) => {
+  const data = req.body;
+
+  const updatedUser = await UpdateProfile(req.user._id, data);
+
+  if (!updatedUser) {
+    throw new NotFoundError('User Profile not Found ', 'updateProfile');
+  }
+  return res
+    .status(StatusCodes.OK)
+    .json({ message: 'Profile Update Successfully .' });
+});
+
 export {
   registerUser,
   loginUser,
@@ -206,6 +206,6 @@ export {
   LoggedInUser,
   VerifyOtp,
   ChangePassword,
-  ProfileUpdate,
   ResendOtp,
+  ProfileUpdate,
 };

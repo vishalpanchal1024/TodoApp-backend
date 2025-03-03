@@ -1,12 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 import { AsyncHandler } from '../utils/asyncHandler.js';
+import { BadRequestError, NotFoundError } from '../utils/errorHandler.js';
 import {
   CreateTodo,
   FindAllTodo,
   FindTodo,
   FindTodoAndUpdate,
 } from '../services/todo.service.js';
-import { BadRequestError, NotFoundError } from '../utils/errorHandler.js';
 
 const AddTodos = AsyncHandler(async (req, res) => {
   const data = req.body;
@@ -49,8 +49,9 @@ const Todo = AsyncHandler(async (req, res) => {
 
 const UpdateTodo = AsyncHandler(async (req, res) => {
   const { id } = req.params;
+  const data = req.body;
 
-  const todo = await FindTodoAndUpdate(id);
+  const todo = await FindTodoAndUpdate(id, data);
   if (!todo) {
     throw NotFoundError('Data Not Found .', 'Todo method');
   }

@@ -18,10 +18,11 @@ todoRoute
 todoRoute.route('/all-todos').get(Authentication, AllTodos);
 todoRoute.route('/todo/:id').get(Authentication, Todo);
 todoRoute.route('/delete-todo/:id').delete(Authentication, DeleteTodo);
-todoRoute.route('/update-todo/:id').patch(Authentication, UpdateTodo);
+todoRoute
+  .route('/update-todo/:id')
+  .patch(CreateTodoValidator, Authentication, UpdateTodo);
 todoRoute
   .route('/change-todo-status/:id')
   .patch(Authentication, ChangeTodoStatus);
-  
 
 export default todoRoute;
