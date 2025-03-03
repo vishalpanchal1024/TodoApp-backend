@@ -82,10 +82,6 @@ const loginUser = AsyncHandler(async (req, res) => {
     throw new NotFoundError('User not found .', 'Login User');
   }
 
-  if (user.emailVerification === false) {
-    throw new NotAuthorizedError('User email not verified.', 'Login User');
-  }
-
   const isPasswordCorrect = user.isPasswordCorrect(data.password);
   console.log(isPasswordCorrect, 'data from service');
   if (!isPasswordCorrect) {
