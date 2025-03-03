@@ -6,7 +6,7 @@ const todoSchema = new Schema(
     description: { type: String, required: true },
     status: {
       type: String,
-      enum: ['pending', 'completed'],
+      enum: ['pending'," Progress", 'completed'],
       default: 'pending',
     },
     dueDate: { type: Date },
@@ -20,6 +20,6 @@ const todoSchema = new Schema(
 todoSchema.index({
   title: 'text',
   description: 'text',
-});
+});  
 
 export const Todo = model('Todo', todoSchema);
