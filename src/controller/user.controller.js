@@ -110,7 +110,7 @@ const loginUser = AsyncHandler(async (req, res) => {
 const logoutUser = AsyncHandler(async (req, res) => {
   await UpdateRefreshToken(req.user._id, null);
   return res
-    .status(StatusCodes.OK) 
+    .status(StatusCodes.OK)  
     .clearCookie('ajt', options)
     .clearCookie('rjt', options2)
     .json({ data: {}, message: 'Log Out Succesfully !' }); 
