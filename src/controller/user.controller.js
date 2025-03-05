@@ -108,7 +108,6 @@ const loginUser = AsyncHandler(async (req, res) => {
 });
 
 const logoutUser = AsyncHandler(async (req, res) => {
-  consoler.log(req.user);
   await UpdateRefreshToken(req.user._id, null);
   return res
     .status(StatusCodes.OK)
