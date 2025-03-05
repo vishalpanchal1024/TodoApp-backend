@@ -113,7 +113,7 @@ const logoutUser = AsyncHandler(async (req, res) => {
     .status(StatusCodes.OK)
     .clearCookie('ajt', options)
     .clearCookie('rjt', options2)
-    .json({ data: {}, message: 'Log Out Succesfully !' });
+    .json({ data: {}, message: 'Log Out Succesfully !' }); 
 });
 
 const LoggedInUser = AsyncHandler(async (req, res) => {
