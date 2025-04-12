@@ -1,38 +1,21 @@
-import { Router } from 'express';
-import {
-  ChangePasswordValidator,
-  EditProfileValidator,
-  LoginValidator,
-  registerValidator,
-} from '../helper/helper.js';
-import {
-  ChangePassword,
-  LoggedInUser,
-  loginUser,
-  logoutUser,
-  registerUser,
-  VerifyOtp,
-  ProfileUpdate,
-  ResendOtp,
-} from '../controller/user.controller.js';
-import { Authentication } from '../middleware/auth.middleware.js';
+import {Router} from "express";
+import { deactivateAccount, LoggedInUser, loginUser, logoutUser, registerUser, VerifyEmail } from "../controller/user.controller.js";
+import { LoginValidator, registerValidator } from "../helper/helper.js";
+import { Authentication } from "../middleware/auth.middleware.js";
 
-const authRoute = Router();
 
-authRoute
-  .route('/register')
-  .post(registerValidator, registerUser);
+const router = Router();
 
-authRoute.route('/login').post(LoginValidator, loginUser);
-authRoute.route('/logout').post(Authentication, logoutUser);
-authRoute.route('/logged-in-user').get(Authentication, LoggedInUser);
-authRoute.route('/otp-verification').post(Authentication, VerifyOtp);
-authRoute
-  .route('/change-password')
-  .post(Authentication, ChangePasswordValidator, ChangePassword);
-authRoute
-  .route('/profile-update')
-  .put(Authentication, EditProfileValidator, ProfileUpdate);
-authRoute.route('/resend-otp').post(Authentication, ResendOtp);
 
-export default authRoute;
+router.route("/register").post(registerValidator,registerUser);
+router.route("/login").post(LoginValidator,loginUser);
+router.route("/email-verification").get(VerifyEmail);
+
+// protacted routes
+router.route("/logout").get(Authentication,logoutUser);
+router.route("/get-login-user").get(Authentication,LoggedInUser);
+router.route("/change-status").get(Authentication,deactivateAccount);
+
+
+export default router
+

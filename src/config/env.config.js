@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -13,6 +14,7 @@ class Config {
   EMAILID;
   EMAILPASS;
   NODE_ENV;
+  BACKEND_URL;
 
   constructor() {
     this.MONGODB_URI = process.env.MONGODB_URI;
@@ -25,6 +27,7 @@ class Config {
     this.EMAILID = process.env.EMAILID;
     this.EMAILPASS = process.env.EMAILPASS;
     this.NODE_ENV = process.env.NODE_ENV;
+    this.BACKEND_URL = process.env.BACKEND_URL
   }
 }
 

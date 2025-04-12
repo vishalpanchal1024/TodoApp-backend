@@ -8,3 +8,7 @@ export const generateAccesToken = (data) => {
 export const generateRefreshToken = (data) => {
   return jwt.sign(data, envConfig.JWT_TOKEN, { expiresIn: '2d' });
 };
+
+export const verifyToken = (token) => {
+  return jwt.verify(token,envConfig.JWT_TOKEN)
+}

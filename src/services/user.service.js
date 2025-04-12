@@ -37,3 +37,8 @@ export const getUsers = async (id) => {
   const data = await User.find({ _id: { $ne: id } }).select('-password').exec();
   return data;
 };
+
+export const FindByIdAndUpdate = async(id,val) => {
+  const data = await User.findByIdAndUpdate(id,val).exec()
+  return data
+}
