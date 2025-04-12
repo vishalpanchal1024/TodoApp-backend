@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { compare, hash } from 'bcrypt';
 
-const image = new Schema({
+export const image = new Schema({
   imageUrl: { type: String, required: true },
   imageId: { type: String, required: true },
 });
@@ -12,13 +12,13 @@ const userSchema = new Schema(
     username: { type: String, required: true, unique: true, trim: true },
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
-    image: image,
-    occupation: { type: String },
-    description: { type: String },
-    otpExpire: { type: Date },
-    otp: { type: Number },
-    emailVerification: { type: Boolean, default: false },
-    refreshToken: { type: String },
+    image: {type:image,required:false},
+    role:{type:String,required:true,enum:["admin","user"]},
+    email_verification: { type: Boolean, default: false,required:true },
+    active_status:{type:Boolean,default:false,required:true},
+    admin_verification:{type:Boolean,default:false,required:true},
+    refresh_token: { type: String },
+    bio:{type:String}
   },
   { timestamps: true }
 );

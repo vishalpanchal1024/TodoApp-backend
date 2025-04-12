@@ -13,7 +13,6 @@ import {
   NotFoundError,
 } from '../utils/errorHandler.js';
 import { generateOTP } from '../utils/generateOtp.js';
-import { uploadOnCloudinary } from '../utils/imageUpload.js';
 import { generateAccesToken, generateRefreshToken } from '../utils/tokens.js';
 import { SendMail } from '../utils/sendMail.js';
 import { envConfig } from '../config/env.config.js';
