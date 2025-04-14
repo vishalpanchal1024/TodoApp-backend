@@ -15,6 +15,7 @@ class Config {
   EMAILPASS;
   NODE_ENV;
   BACKEND_URL;
+  FRONTEND_URL;
 
   constructor() {
     this.MONGODB_URI = process.env.MONGODB_URI;
@@ -27,7 +28,8 @@ class Config {
     this.EMAILID = process.env.EMAILID;
     this.EMAILPASS = process.env.EMAILPASS;
     this.NODE_ENV = process.env.NODE_ENV;
-    this.BACKEND_URL = process.env.BACKEND_URL
+    this.BACKEND_URL = process.env.BACKEND_URL;
+    this.FRONTEND_URL = process.env.FRONTEND_URL;
   }
 }
 

@@ -42,3 +42,8 @@ export const FindByIdAndUpdate = async(id,val) => {
   const data = await User.findByIdAndUpdate(id,val).exec()
   return data
 }
+
+export const FindByEmail = async(email) => {
+  const data = await User.findOne({email}).exec();
+  return data
+}

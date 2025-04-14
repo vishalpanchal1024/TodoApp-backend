@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import {
   CreateUser,
+  FindByEmail,
   findByEmailOrUsername,
   findById,
   FindByIdAndUpdate,
@@ -15,6 +16,11 @@ import {
 import { generateAccesToken, generateRefreshToken, verifyToken } from '../utils/tokens.js';
 import { SendMail } from '../utils/sendMail.js';
 import { envConfig } from '../config/env.config.js';
+import {fileURLToPath} from "url";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const options = {
   maxAge: 24 * 60 * 60 * 1000,
@@ -146,6 +152,58 @@ const deactivateAccount = AsyncHandler(async (req, res) => {
 
 })
 
+const ForgetPassword = AsyncHandler(async (req,res) => {
+  const {email} = req.body;
+  if(!email){
+    throw new NotFoundError("Email is Required field","ForgetPassword menthod");
+  }
+  const find = await FindByEmail(email);
+  if(!find){
+    throw new NotFoundError("User Not found","ForgetPassword menthod");
+  }
+  const token = generateAccesToken({email})
+
+  SendMail(
+    'ResetPassword.ejs',
+    { userName : find.fullname, resetLink: `${envConfig.BACKEND_URL}/user/forget-password-page?token=${token}` },
+    { email: find.email, subject: 'Reset Password' }
+  );
+
+  return res.status(StatusCodes.OK).json({
+    message:"Reset Password Link Send in your main"
+  })
+});
+
+const ForgetPasswordPage = AsyncHandler(async (req,res) => {
+  const {token} = req.query;
+  const {email} = verifyToken(token);
+  const user = await FindByEmail(email);
+  if(!user){
+    throw new NotFoundError("User Not Found","ForgetPasswordPage methord")
+  };
+
+  const fileUrl = path.join(__dirname, '../../forgetPassword.html');
+  res.sendFile(fileUrl)
+})
+
+
+const ResetPassword = AsyncHandler(async (req,res) => {
+  const {password} = req.body;
+  const {token} = req.query;
+  const {email} = verifyToken(token);
+  const user = await FindByEmail(email);
+  if(!user){
+    throw new NotFoundError("User Not Found","ForgetPasswordPage methord")
+  };
+
+  await FindByIdAndUpdate(user._id,password)
+   res.status(StatusCodes.OK).json({
+    message:"Password Reset Successful"
+  })
+
+  res.redirect(`${envConfig.FRONTEND_URL}/login`)
+
+})
 
 
 export {
@@ -154,5 +212,8 @@ export {
   logoutUser,
   LoggedInUser,
   VerifyEmail,
-  deactivateAccount
+  deactivateAccount,
+  ForgetPassword,
+  ForgetPasswordPage,
+  ResetPassword
 };

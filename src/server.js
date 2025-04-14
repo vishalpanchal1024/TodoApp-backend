@@ -61,6 +61,7 @@ const DbConnections = () => {
 
 function startServer(app) {
   app.listen(envConfig.PORT, () => {
+    // eslint-disable-next-line no-undef
     console.log('Server is up and running on Port:', envConfig.PORT);
   });
 }
