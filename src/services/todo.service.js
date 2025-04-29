@@ -1,4 +1,5 @@
 import { Todo } from '../models/todo.model.js';
+import { User } from '../models/user.model.js';
 
 export const CreateTodo = async (data) => {
   const todo = await Todo.create(data);

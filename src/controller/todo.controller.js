@@ -5,6 +5,7 @@ import {
   CreateTodo,
   FindAllTodo,
   FindTodo,
+  FindTodoAndDelete,
   FindTodoAndUpdate,
 } from '../services/todo.service.js';
 
